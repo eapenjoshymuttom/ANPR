@@ -48,7 +48,7 @@ while True:
             # cv2.rectangle(img,(x1,y1),(x2,y2),(255,0,255),3)
             # Confidence
             conf = math.ceil((box.conf[0] * 100)) / 100
-            # Class Name
+            # Class Name hello
             cls = int(box.cls[0])
             currentClass = classNames[cls]
 
