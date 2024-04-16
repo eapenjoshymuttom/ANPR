@@ -17,9 +17,9 @@ firebase_admin.initialize_app(cred, {
 
 reader = easyocr.Reader(['en'], gpu=True)
 
-cap = cv2.VideoCapture("../videos/number_plate.mp4")
+cap = cv2.VideoCapture("../videos/parking_data4.mov")
 
-model = YOLO("../Yolo-Weights/bestDS2_l2.pt")
+model = YOLO("../Yolo-Weights/best_l.pt")
 
 classNames = ["number_plate"]
 
@@ -29,7 +29,7 @@ tracker = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
 limits = [10, 450, 900, 450]
 
 totalCount = []
-detected_plates = []
+active_plates = []
 ref = db.reference('/')
 
 while True:
@@ -101,26 +101,33 @@ while True:
                 # cv2.line(img, (limits[0], limits[1]), (limits[2], limits[3]), (0, 255, 0), 5)
                 totalCount.append(id)
                 print("plate", plate[0][1])
-                if plate[0][1] in detected_plates:
+                if plate[0][1] in active_plates:
                     # Plate detected again, delete it from Firebase
-                    plates_ref = ref.child('detected_plates')
+                    plates_ref = ref.child('active_plates')
                     snapshot = plates_ref.order_by_child('plate_number').equal_to(plate[0][1]).get()
                     for key, val in snapshot.items():
                         plates_ref.child(key).delete()
-                    print(f"Plate {plate[0][1]} detected again and deleted from Firebase")
+                    print(f"Plate {plate[0][1]} detected again and deleted from Active plates")
 
                 else:
+                    # Plate detected for the first time, add it to Firebase
+                    plates_ref = ref.child('active_plates')
+                    plates_ref.push().set({
+                        'plate_number': plate[0][1],
+                        # 'timestamp': firebase_admin.db.ServerValue.TIMESTAMP
+                    })
+                    print(f"Plate {plate[0][1]} added to active_plates")
+                    active_plates.append(plate[0][1])
                     # Plate detected for the first time, add it to Firebase
                     plates_ref = ref.child('detected_plates')
                     plates_ref.push().set({
                         'plate_number': plate[0][1],
                         # 'timestamp': firebase_admin.db.ServerValue.TIMESTAMP
                     })
-                    print(f"Plate {plate[0][1]} added to Firebase")
-                    detected_plates.append(plate[0][1])
+                    print(f"Plate {plate[0][1]} added to detected_plates")
 
         cvzone.putTextRect(img, f' Count: {len(totalCount)}', (50, 50))
 
     cv2.imshow("Image", img)
-    cv2.waitKey(0)
+    cv2.waitKey(1)
     print(totalCount)
