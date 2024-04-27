@@ -17,6 +17,7 @@ firebase_admin.initialize_app(cred, {
 
 reader = easyocr.Reader(['en'], gpu=True)
 
+
 cap = cv2.VideoCapture("../videos/parking_data4.mov")
 
 model = YOLO("../Yolo-Weights/best_l.pt")
