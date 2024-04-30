@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurityPage</title>
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body>
+      <a href="../index.html" style="
+        background-color: rgb(42, 104, 165);
+        color: white;
+          text-align: center;
+            text-decoration: none;
+              display: flex;
+              font-size: 16px;
+                cursor: pointer;
+                  border-radius: 12px;
+                    padding: 10px;
+                      margin-left: 1200px;
+                        width: 80px;
+                          margin-top: 0px;" 
+        >STUDENT</a>
+      <form class="security" id="myForm">
+        <label for="search">Search:</label>
+        <input type="text" id="search" name="search" class="input" placeholder="Vehicle_Number" /><br />
+        <button class="button" id="searchButton">Search</button>
+      </form>
+      
+      <ul id="details" class="details"></ul>
+
+    <script src="./security.js" type="module"></script>
+  </body>
+</html>

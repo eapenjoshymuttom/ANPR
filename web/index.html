@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Registration Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    
+  </head>
+  <body  class="d-flex align-items-center py-4 bg-body-tertiary" >
+    
+    <main class="form-signin container m-auto" style="max-width: 330px;">
+      <form class="flex-column flex gap-3 " id="myForm">
+        <a href="./security" style="
+        background-color: rgb(42, 104, 165);
+        color: white;
+          text-align: center;
+            text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+                cursor: pointer;
+                  border-radius: 12px;
+                    padding: 10px;
+                    margin-left: 500px;
+                      margin-top: 0px;" 
+        >SECURITY</a>
+        <img class="mb-4" src="./logo.jpg" alt="" width="72" height="57">
+        
+        <h1 class="h3 mb-3 fw-normal">Please Enter details</h1>
+
+        <div class="form-floating">
+          <input type="text" class="form-control" id="name" placeholder="name">
+          <label for="name">Name</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" aria-label="Default select example" name="branch" id="branch">
+            <option value="AD">AD</option>
+            <option value="CE">CE</option>
+            <option value="CS">CS</option>
+            <option value="CY">CY</option>
+            <option value="EC">EC</option>
+            <option value="ECS">ECS</option>
+            <option value="EEE">EEE</option>
+            <option value="ME">ME</option>
+          </select>
+          <label for="branch">Branch</label>
+        </div>
+
+        <div class="form-floating">
+          <select class="form-select" aria-label="Default select example" name="batch" id="batch">
+            <option value="2020-24">2020-24</option>
+            <option value="2021-25">2021-25</option>
+            <option value="2022-26">2022-26</option>
+            <option value="2023-27">2023-27</option>
+          </select>
+          <label for="batch">Batch</label>
+        </div>
+
+        <div class="form-floating">
+          <input type="tel" class="form-control" id="phone" placeholder="number">
+          <label for="number">number</label>
+        </div>
+
+        <div class="form-floating">
+          <input type="text" class="form-control" id="vehicle" placeholder="vehicle">
+          <label for="vehicle">Vehicle</label>
+        </div>
+
+        <button class="btn btn-primary w-100 py-2"  id="submit" type="button">Submit</button>
+      </form>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./script.js" type="module"></script>
+  </body>
+</html>
+
