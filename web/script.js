@@ -8,7 +8,7 @@ import {
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDCyfvX_vw15AKXwgqSGwfbhqluQUd4eMk",
+  apiKey: "gjkauhbfhlblihbfibjhsrbgjhs",
   authDomain: "anpr-d05b8.firebaseapp.com",
   databaseURL:
     "https://anpr-d05b8-default-rtdb.asia-southeast1.firebasedatabase.app",
