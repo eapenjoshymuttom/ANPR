@@ -3,22 +3,22 @@ import cv2
 import cvzone
 import math
 from sort import *
-import easyocr
+import pytesseract
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 from firebase_admin import firestore
 
 # Path to your service account JSON file
-cred = credentials.Certificate('pass.json')
+cred = credentials.Certificate('pass2.json')
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://anpr-d05b8-default-rtdb.asia-southeast1.firebasedatabase.app/'
+    'databaseURL': 'https://anpr-537f9-default-rtdb.europe-west1.firebasedatabase.app/'
 })
 
-reader = easyocr.Reader(['en'], gpu=True)
+# Set Tesseract path (replace this with your Tesseract installation path)
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-
-cap = cv2.VideoCapture("../videos/parking data8.mp4")
+cap = cv2.VideoCapture("../videos/parking data8.mp4", cv2.CAP_FFMPEG)
 
 model = YOLO("../Yolo-Weights/best_l.pt")
 
@@ -68,9 +68,9 @@ while True:
         x1, y1, x2, y2, id = result
         x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
 
-        # Crop the region of interest for EasyOCR
+        # Crop the region of interest for Tesseract OCR
         roi = img[y1:y2, x1:x2]
-        # cv2.imshow("roi", roi)
+        cv2.imshow("roi", roi)
         # Get the original image dimensions
         height, width = roi.shape[:2]
         scale_factor = 3
@@ -79,13 +79,14 @@ while True:
         new_width = int(width * scale_factor)
         # Resize the image
         resized_image = cv2.resize(roi, (new_width, new_height))
-        # cv2.imshow("_", resized_image)
+        cv2.imshow("_", resized_image)
         gray = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
-        # cv2.imshow("__", gray)
+        cv2.imshow("", gray)
 
-        plate = reader.readtext(resized_image)
-        if plate:
-            text = plate[0][1]  # Get the detected text
+        text = pytesseract.image_to_string(gray, config='--psm 6')  # Perform OCR using Tesseract
+        text = text.strip()  # Remove leading and trailing whitespaces
+
+        if text:
             # the image, the text to display, text location wrt image, text style, text size,text color,
             # thickness of the text characters
             cv2.putText(img, text, (x1, y1 - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
@@ -96,39 +97,36 @@ while True:
         w, h = x2 - x1, y2 - y1
         cx, cy = x1 + w // 2, y1 + h // 2
         cv2.circle(img, (cx, cy), 3, (255, 0, 255), cv2.FILLED)
-        cv2.line(img, (limits[0], limits[1]), (limits[2], limits[3]), (0, 255, 0), 5)
 
         if limits[0] < cx < limits[2] and limits[1] - 15 < cy < limits[1] + 15:
             if totalCount.count(id) == 0:
-
+                # cv2.line(img, (limits[0], limits[1]), (limits[2], limits[3]), (0, 255, 0), 5)
                 totalCount.append(id)
-                print("plate", plate[0][1])
-                if plate[0][1] in active_plates:
+                print("plate", text)
+                if text in active_plates:
                     # Plate detected again, delete it from Firebase
-                    # plates_ref = ref.child('active_plates/' + plate[0][1])
                     plates_ref = ref.child('active_plates')
-                    snapshot = plates_ref.order_by_child('plate_number').equal_to(plate[0][1]).get()
+                    snapshot = plates_ref.order_by_child('plate_number').equal_to(text).get()
                     for key, val in snapshot.items():
                         plates_ref.child(key).delete()
-                    print(f"Plate {plate[0][1]} detected again and deleted from Active plates")
+                    print(f"Plate {text} detected again and deleted from Active plates")
 
                 else:
                     # Plate detected for the first time, add it to Firebase
-                    # plates_ref = ref.child('active_plates/' + plate[0][1])
                     plates_ref = ref.child('active_plates')
                     plates_ref.push().set({
-                        'plate_number': plate[0][1],
+                        'plate_number': text,
                         # 'timestamp': firebase_admin.db.ServerValue.TIMESTAMP
                     })
-                    print(f"Plate {plate[0][1]} added to active_plates")
-                    active_plates.append(plate[0][1])
+                    print(f"Plate {text} added to active_plates")
+                    active_plates.append(text)
                     # Plate detected for the first time, add it to Firebase
                     plates_ref = ref.child('detected_plates')
                     plates_ref.push().set({
-                        'plate_number': plate[0][1],
+                        'plate_number': text,
                         # 'timestamp': firebase_admin.db.ServerValue.TIMESTAMP
                     })
-                    print(f"Plate {plate[0][1]} added to detected_plates")
+                    print(f"Plate {text} added to detected_plates")
 
         cvzone.putTextRect(img, f' Count: {len(totalCount)}', (50, 50))
 
