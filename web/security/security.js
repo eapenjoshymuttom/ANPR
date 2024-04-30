@@ -60,7 +60,14 @@ button.addEventListener("click", async function (e) {
       <li>Vehicle: ${data.vehicle}</li>
     `;
   } else {
+    alert("No data found");
     detailsEl.innerHTML = "No data found";
   }
-  
+
+  resetForm();
 });
+
+function resetForm() {
+  document.getElementById("myForm").reset();
+}
+

@@ -54,4 +54,11 @@ addButtonEl.addEventListener("click", async function (e) {
   await writeUserData(values);
 
   console.log("Data written successfully");
+  alert("Data Entered successfully");
+
+  resetForm();
 });
+
+function resetForm() {
+  document.getElementById("myForm").reset();
+}

@@ -69,6 +69,19 @@ input[type="submit"]:active {
   opacity: 0.4;
 }
 
+.details {
+  color: black;
+  list-style-type: none;
+  padding: 24;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 50px;
+  margin-left: 250px;
+  width: 950px;
+}
+
 .input {
   margin-left: 0px;
   padding: 50px;
