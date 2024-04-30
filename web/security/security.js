@@ -6,15 +6,14 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "gjkauhbfhlblihbfibjhsrbgjhs",
-  authDomain: "anpr-d05b8.firebaseapp.com",
-  databaseURL:
-    "https://anpr-d05b8-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "anpr-d05b8",
-  storageBucket: "anpr-d05b8.appspot.com",
-  messagingSenderId: "1080137159182",
-  appId: "1:1080137159182:web:ad7ccd30bf0b60e19f625f",
-  measurementId: "G-VN8YQ3LS6V",
+  apiKey: "AIzaSyC_SMjH-WH5fSttELER0uHz6swoLNhjT5s",
+  authDomain: "anpr-537f9.firebaseapp.com",
+  databaseURL: "https://anpr-537f9-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "anpr-537f9",
+  storageBucket: "anpr-537f9.appspot.com",
+  messagingSenderId: "582608749107",
+  appId: "1:582608749107:web:7097aea45523324976d946",
+  measurementId: "G-3BJRRMV66Y"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -60,7 +59,14 @@ button.addEventListener("click", async function (e) {
       <li>Vehicle: ${data.vehicle}</li>
     `;
   } else {
+    alert("No data found");
     detailsEl.innerHTML = "No data found";
   }
-  
+
+  resetForm();
 });
+
+function resetForm() {
+  document.getElementById("myForm").reset();
+}
+
