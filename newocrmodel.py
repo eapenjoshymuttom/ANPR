@@ -8,12 +8,17 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 from firebase_admin import firestore
+import datetime
 
 # Path to your service account JSON file
-cred = credentials.Certificate('pass2.json')
+cred = credentials.Certificate('pass.json')
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://anpr-537f9-default-rtdb.europe-west1.firebasedatabase.app/'
+    'databaseURL': 'https://anpr-d05b8-default-rtdb.asia-southeast1.firebasedatabase.app/'
 })
+
+
+# Initialize the Firestore client
+dbStore = firestore.client()
 
 # Set Tesseract path (replace this with your Tesseract installation path)
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
@@ -83,10 +88,11 @@ while True:
         gray = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
         cv2.imshow("", gray)
 
-        text = pytesseract.image_to_string(gray, config='--psm 6')  # Perform OCR using Tesseract
-        text = text.strip()  # Remove leading and trailing whitespaces
+        plate = pytesseract.image_to_string(gray, config='--psm 6')  # Perform OCR using Tesseract
+        plate = plate.strip()  # Remove leading and trailing whitespaces
 
-        if text:
+        if plate:
+            text = plate[0][1]  # Get the detected text
             # the image, the text to display, text location wrt image, text style, text size,text color,
             # thickness of the text characters
             cv2.putText(img, text, (x1, y1 - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
@@ -97,39 +103,46 @@ while True:
         w, h = x2 - x1, y2 - y1
         cx, cy = x1 + w // 2, y1 + h // 2
         cv2.circle(img, (cx, cy), 3, (255, 0, 255), cv2.FILLED)
+        cv2.line(img, (limits[0], limits[1]), (limits[2], limits[3]), (0, 255, 0), 5)
 
         if limits[0] < cx < limits[2] and limits[1] - 15 < cy < limits[1] + 15:
             if totalCount.count(id) == 0:
-                # cv2.line(img, (limits[0], limits[1]), (limits[2], limits[3]), (0, 255, 0), 5)
+
                 totalCount.append(id)
-                print("plate", text)
-                if text in active_plates:
+                print("plate", plate[0][1])
+                if plate[0][1] in active_plates:
                     # Plate detected again, delete it from Firebase
+                    # plates_ref = ref.child('active_plates/' + plate[0][1])
                     plates_ref = ref.child('active_plates')
-                    snapshot = plates_ref.order_by_child('plate_number').equal_to(text).get()
+                    snapshot = plates_ref.order_by_child('plate_number').equal_to(plate[0][1]).get()
                     for key, val in snapshot.items():
                         plates_ref.child(key).delete()
-                    print(f"Plate {text} detected again and deleted from Active plates")
+                    print(f"Plate {plate[0][1]} detected again and deleted from Active plates")
 
                 else:
                     # Plate detected for the first time, add it to Firebase
+                    now = datetime.datetime.now()
+                    timestamp = now.strftime('%Y-%m-%d %H:%M:%S')
+                    # plates_ref = ref.child('active_plates/' + plate[0][1])
                     plates_ref = ref.child('active_plates')
                     plates_ref.push().set({
-                        'plate_number': text,
-                        # 'timestamp': firebase_admin.db.ServerValue.TIMESTAMP
+                        'plate_number': plate[0][1],
+                        'timestamp': timestamp
                     })
-                    print(f"Plate {text} added to active_plates")
-                    active_plates.append(text)
+                    print(f"Plate {plate[0][1]} added to active_plates")
+                    active_plates.append(plate[0][1])
                     # Plate detected for the first time, add it to Firebase
-                    plates_ref = ref.child('detected_plates')
-                    plates_ref.push().set({
-                        'plate_number': text,
-                        # 'timestamp': firebase_admin.db.ServerValue.TIMESTAMP
+                    plates_ref = dbStore.collection('detected_plates')
+                    # plates_ref = dbStore.collection('detected_plates/' + plate[0][1])
+                    plates_ref.add({
+                        'plate_number': plate[0][1],
+                        'timestamp': timestamp
                     })
-                    print(f"Plate {text} added to detected_plates")
+                    print(f"Plate {plate[0][1]} added to detected_plates")
 
         cvzone.putTextRect(img, f' Count: {len(totalCount)}', (50, 50))
 
     cv2.imshow("Image", img)
     cv2.waitKey(1)
     print(totalCount)
+    cv2.destroyAllWindows()
