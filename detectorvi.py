@@ -22,7 +22,7 @@ dbStore = firestore.client()
 
 reader = easyocr.Reader(['en'], gpu=True)
 
-cap = cv2.VideoCapture("../videos/parking data8.mp4")
+cap = cv2.VideoCapture("../videos/parking_data9.mov")
 
 model = YOLO("../Yolo-Weights/best_l.pt")
 
@@ -31,7 +31,7 @@ classNames = ["number_plate"]
 # Tracking
 tracker = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
 # x1    y1   x2   y2
-limits = [10, 400, 1280, 350]
+limits = [10, 400, 1280, 300]
 
 totalCount = []
 active_plates = []
@@ -129,9 +129,8 @@ while True:
                     print(f"Plate {plate[0][1]} added to active_plates")
                     active_plates.append(plate[0][1])
                     # Plate detected for the first time, add it to Firebase
-                    plates_ref = dbStore.collection('detected_plates')
-                    # plates_ref = dbStore.collection('detected_plates/' + plate[0][1])
-                    plates_ref.add({
+                    plates_ref = dbStore.collection('detected_plates').document(plate[0][1])
+                    plates_ref.set({
                         'plate_number': plate[0][1],
                         'timestamp': timestamp
                     })
@@ -142,4 +141,3 @@ while True:
     cv2.imshow("Image", img)
     cv2.waitKey(1)
     print(totalCount)
-    cv2.destroyAllWindows()
