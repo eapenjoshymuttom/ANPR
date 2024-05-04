@@ -26,12 +26,9 @@ const db = getFirestore(app);
 const q = query(collection(db, "detected_plates"));
 const detailsEl = document.getElementById("details");
 
-const p = query(collection(db, "left_vehicles"));
-
 async function fetchData() {
   try {
     const querySnapshot = await getDocs(q);
-    const querySnapshot2 = await getDocs(p);
     if (querySnapshot.empty) {
       console.log('No documents found in the "detected_plates" collection');
     } else {
@@ -52,8 +49,8 @@ async function fetchData() {
 
           if (data2) {
             out = new Date(data2.Out).toLocaleString();
-            } else {
-              alert("No data found for plate number: " + plateNumber);
+          } else {
+            alert("No data found for plate number: " + plateNumber);
           }
         }
 
@@ -73,9 +70,8 @@ async function fetchData() {
               <li>Out:${out}</li>
               <hr>
             `;
-
-            } else {
-              alert("No data found for plate number: " + plateNumber);
+          } else {
+            alert("No data found for plate number: " + plateNumber);
           }
         } else {
           console.log("No such document for plate number:", plateNumber);
