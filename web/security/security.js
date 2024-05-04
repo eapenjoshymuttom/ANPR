@@ -8,12 +8,13 @@ import {
 const firebaseConfig = {
   apiKey: "AIzaSyDCyfvX_vw15AKXwgqSGwfbhqluQUd4eMk",
   authDomain: "anpr-d05b8.firebaseapp.com",
-  databaseURL: "https://anpr-d05b8-default-rtdb.asia-southeast1.firebasedatabase.app",
+  databaseURL:
+    "https://anpr-d05b8-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "anpr-d05b8",
   storageBucket: "anpr-d05b8.appspot.com",
   messagingSenderId: "1080137159182",
   appId: "1:1080137159182:web:ad7ccd30bf0b60e19f625f",
-  measurementId: "G-VN8YQ3LS6V"
+  measurementId: "G-VN8YQ3LS6V",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -33,21 +34,21 @@ async function getUserData(data) {
     return docSnap.data();
   } else {
     console.log("No such document!");
-    return null
+    return null;
   }
 }
-const button = document.getElementById("searchButton")
-const input = document.getElementById("search")
-const detailsEl = document.getElementById("details")
+const button = document.getElementById("searchButton");
+const input = document.getElementById("search");
+const detailsEl = document.getElementById("details");
 
 button.addEventListener("click", async function (e) {
   e.preventDefault();
   let searchValue = input.value;
 
   console.log(searchValue);
-  
+
   const data = await getUserData({ vehicle: searchValue });
-  
+
   console.log(data);
 
   if (data) {
@@ -69,4 +70,3 @@ button.addEventListener("click", async function (e) {
 function resetForm() {
   document.getElementById("myForm").reset();
 }
-
