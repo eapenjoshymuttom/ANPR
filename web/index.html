@@ -16,35 +16,47 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    
   </head>
-  <body  class="d-flex align-items-center py-4 bg-body-tertiary" >
-    
-    <main class="form-signin container m-auto" style="max-width: 330px;">
-      <form class="flex-column flex gap-3 " id="myForm">
-        <a href="./security" style="
-        background-color: rgb(42, 104, 165);
-        color: white;
-          text-align: center;
+  <body class="d-flex align-items-center py-4 bg-body-tertiary">
+    <main class="form-signin container m-auto" style="max-width: 330px">
+      <form class="flex-column flex gap-3" id="myForm">
+        <a
+          href="./security"
+          style="
+            background-color: rgb(42, 104, 165);
+            color: white;
+            text-align: center;
             text-decoration: none;
-              display: inline-block;
-              font-size: 16px;
-                cursor: pointer;
-                  border-radius: 12px;
-                    padding: 10px;
-                    margin-left: 500px;
-                      margin-top: 0px;" 
-        >SECURITY</a>
-        <img class="mb-4" src="./logo.jpg" alt="" width="72" height="57">
-        
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 12px;
+            padding: 10px;
+            margin-left: 500px;
+            margin-top: 0px;
+          "
+          >SECURITY</a
+        >
+        <img class="mb-4" src="./logo.jpg" alt="" width="72" height="57" />
+
         <h1 class="h3 mb-3 fw-normal">Please Enter details</h1>
 
         <div class="form-floating">
-          <input type="text" class="form-control" id="name" placeholder="name">
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            placeholder="name"
+          />
           <label for="name">Name</label>
         </div>
         <div class="form-floating">
-          <select class="form-select" aria-label="Default select example" name="branch" id="branch">
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            name="branch"
+            id="branch"
+          >
             <option value="AD">AD</option>
             <option value="CE">CE</option>
             <option value="CS">CS</option>
@@ -58,7 +70,12 @@
         </div>
 
         <div class="form-floating">
-          <select class="form-select" aria-label="Default select example" name="batch" id="batch">
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            name="batch"
+            id="batch"
+          >
             <option value="2020-24">2020-24</option>
             <option value="2021-25">2021-25</option>
             <option value="2022-26">2022-26</option>
@@ -68,16 +85,28 @@
         </div>
 
         <div class="form-floating">
-          <input type="tel" class="form-control" id="phone" placeholder="Phone">
+          <input
+            type="tel"
+            class="form-control"
+            id="phone"
+            placeholder="Phone"
+          />
           <label for="phone">Phone</label>
         </div>
 
         <div class="form-floating">
-          <input type="text" class="form-control" id="vehicle" placeholder="vehicle">
+          <input
+            type="text"
+            class="form-control"
+            id="vehicle"
+            placeholder="vehicle"
+          />
           <label for="vehicle">Vehicle</label>
         </div>
 
-        <button class="btn btn-primary w-100 py-2"  id="submit" type="button">Submit</button>
+        <button class="btn btn-primary w-100 py-2" id="submit" type="button">
+          Submit
+        </button>
       </form>
     </main>
 
@@ -89,4 +118,3 @@
     <script src="./script.js" type="module"></script>
   </body>
 </html>
-
