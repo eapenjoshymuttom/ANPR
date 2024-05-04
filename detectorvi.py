@@ -109,7 +109,13 @@ while True:
                 print("plate", plate[0][1])
                 if plate[0][1] in active_plates:
                     # Plate detected again, delete it from Firebase
-                    # plates_ref = ref.child('active_plates/' + plate[0][1])
+                    now = datetime.datetime.now()
+                    timestamp = now.strftime('%Y-%m-%d %H:%M:%S')
+                    plate_ref = dbStore.collection('left_vehicles').document(plate[0][1])
+                    plate_ref.set({
+                        'plate_number': plate[0][1],
+                        'Out': timestamp
+                    })
                     plates_ref = ref.child('active_plates')
                     snapshot = plates_ref.order_by_child('plate_number').equal_to(plate[0][1]).get()
                     for key, val in snapshot.items():
@@ -120,7 +126,6 @@ while True:
                     # Plate detected for the first time, add it to Firebase
                     now = datetime.datetime.now()
                     timestamp = now.strftime('%Y-%m-%d %H:%M:%S')
-                    # plates_ref = ref.child('active_plates/' + plate[0][1])
                     plates_ref = ref.child('active_plates')
                     plates_ref.push().set({
                         'plate_number': plate[0][1],
@@ -132,7 +137,7 @@ while True:
                     plates_ref = dbStore.collection('detected_plates').document(plate[0][1])
                     plates_ref.set({
                         'plate_number': plate[0][1],
-                        'timestamp': timestamp
+                        'In': timestamp
                     })
                     print(f"Plate {plate[0][1]} added to detected_plates")
 

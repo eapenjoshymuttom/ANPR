@@ -26,38 +26,56 @@ const db = getFirestore(app);
 const q = query(collection(db, "detected_plates"));
 const detailsEl = document.getElementById("details");
 
+const p = query(collection(db, "left_vehicles"));
+
 async function fetchData() {
   try {
     const querySnapshot = await getDocs(q);
+    const querySnapshot2 = await getDocs(p);
     if (querySnapshot.empty) {
       console.log('No documents found in the "detected_plates" collection');
     } else {
       querySnapshot.forEach(async (plateDoc) => {
         console.log(plateDoc.id, " => ", plateDoc.data());
         const plateNumber = plateDoc.data().plate_number; // Access plate_number field
-        const timestamp = plateDoc.data().timestamp; // Access timestamp field
-
+        const in_timestamp = plateDoc.data().In; // Access timestamp field
         // Access Firestore document for the corresponding vehicle
         const docRef = doc(db, "StudentsList", plateNumber);
         const docSnap = await getDoc(docRef);
-        
+        const docRef2 = doc(db, "left_vehicles", plateNumber);
+        const docSnap2 = await getDoc(docRef2);
+        let out = "Not Left";
+
+        if (docSnap2.exists()) {
+          const data2 = docSnap2.data();
+          console.log("Document data2:", data2);
+
+          if (data2) {
+            out = new Date(data2.Out).toLocaleString();
+            } else {
+              alert("No data found for plate number: " + plateNumber);
+          }
+        }
+
         if (docSnap.exists()) {
           const data = docSnap.data();
           console.log("Document data:", data);
-          
+
           // Display student details if available
           if (data) {
             detailsEl.innerHTML += `
               <li>Plate Number: ${plateNumber}</li>
-              <li>Timestamp: ${new Date(timestamp).toLocaleString()}</li>
               <li>Name: ${data.name}</li>
               <li>Branch: ${data.branch}</li>
               <li>Batch: ${data.batch}</li>
               <li>Phone: ${data.phone}</li>
+              <li>In: ${new Date(in_timestamp).toLocaleString()}</li>
+              <li>Out:${out}</li>
               <hr>
             `;
-          } else {
-            alert("No data found for plate number: " + plateNumber);
+
+            } else {
+              alert("No data found for plate number: " + plateNumber);
           }
         } else {
           console.log("No such document for plate number:", plateNumber);
