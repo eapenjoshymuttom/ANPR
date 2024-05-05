@@ -23,6 +23,13 @@ onValue(activePlatesInDB, function (snapshot) {
         <li>Count: ${count}</li>
         <hr>
       `;
+    if(count < 100) {
+      let remaining = 100 - count;
+      activePlatesEl.innerHTML += `
+        <li>Remaining Slots: ${remaining}</li>
+        <hr>
+      `;
+    }
     for (let i = 0; i < activePlatesArray.length; i++) {
       let currentList = activePlatesArray[i];
       let currentItemID = currentList[0];
