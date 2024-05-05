@@ -8,17 +8,21 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 from firebase_admin import firestore
+import datetime
 
 # Path to your service account JSON file
 cred = credentials.Certificate('pass.json')
+
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://anpr-d05b8-default-rtdb.asia-southeast1.firebasedatabase.app/'
 })
 
+# Initialize the Firestore client
+dbStore = firestore.client()
+
 reader = easyocr.Reader(['en'], gpu=True)
 
-
-cap = cv2.VideoCapture("../videos/parking data8.mp4")
+cap = cv2.VideoCapture("../videos/parking_data9.mov")
 
 model = YOLO("../Yolo-Weights/best_l.pt")
 
@@ -27,7 +31,7 @@ classNames = ["number_plate"]
 # Tracking
 tracker = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
 # x1    y1   x2   y2
-limits = [10, 350, 1200, 350]
+limits = [10, 400, 1280, 300]
 
 totalCount = []
 active_plates = []
@@ -105,7 +109,13 @@ while True:
                 print("plate", plate[0][1])
                 if plate[0][1] in active_plates:
                     # Plate detected again, delete it from Firebase
-                    # plates_ref = ref.child('active_plates/' + plate[0][1])
+                    now = datetime.datetime.now()
+                    timestamp = now.strftime('%Y-%m-%d %H:%M:%S')
+                    plate_ref = dbStore.collection('left_vehicles').document(plate[0][1])
+                    plate_ref.set({
+                        'plate_number': plate[0][1],
+                        'Out': timestamp
+                    })
                     plates_ref = ref.child('active_plates')
                     snapshot = plates_ref.order_by_child('plate_number').equal_to(plate[0][1]).get()
                     for key, val in snapshot.items():
@@ -114,19 +124,20 @@ while True:
 
                 else:
                     # Plate detected for the first time, add it to Firebase
-                    # plates_ref = ref.child('active_plates/' + plate[0][1])
+                    now = datetime.datetime.now()
+                    timestamp = now.strftime('%Y-%m-%d %H:%M:%S')
                     plates_ref = ref.child('active_plates')
                     plates_ref.push().set({
                         'plate_number': plate[0][1],
-                        # 'timestamp': firebase_admin.db.ServerValue.TIMESTAMP
+                        'timestamp': timestamp
                     })
                     print(f"Plate {plate[0][1]} added to active_plates")
                     active_plates.append(plate[0][1])
                     # Plate detected for the first time, add it to Firebase
-                    plates_ref = ref.child('detected_plates')
-                    plates_ref.push().set({
+                    plates_ref = dbStore.collection('detected_plates').document(plate[0][1])
+                    plates_ref.set({
                         'plate_number': plate[0][1],
-                        # 'timestamp': firebase_admin.db.ServerValue.TIMESTAMP
+                        'In': timestamp
                     })
                     print(f"Plate {plate[0][1]} added to detected_plates")
 
