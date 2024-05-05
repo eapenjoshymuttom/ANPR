@@ -16,6 +16,8 @@ const activePlatesInDB = ref(database, "active_plates");
 const activePlatesEl = document.getElementById("details");
 
 onValue(activePlatesInDB, function (snapshot) {
+  activePlatesEl.innerHTML = '';//clear the list
+
   if (snapshot.exists()) {
     let activePlatesArray = Object.entries(snapshot.val());
     let count = activePlatesArray.length;
