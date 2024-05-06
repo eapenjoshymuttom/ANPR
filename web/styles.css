@@ -1,0 +1,180 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000; /* black background */
+}
+
+header {
+    background-color: #FF8C00; /* orange background */
+    padding: 20px;
+    display: flex; /* make header a flex container */
+    justify-content: space-between;
+    align-items: center; /* center elements vertically */
+}
+
+.logo-container {
+    margin-right: 20px; /* add some space between logo and navbar */
+}
+
+.logo {
+    width: 120px; /* increased width to 120px */
+    height: 60px; /* increased height to 60px */
+}
+
+.hamburger-menu {
+    height: 24px;
+    margin-left: 24px;
+    margin-right: 24px;
+}
+
+nav {
+    background-color: #FF8C00; /* black background */
+    padding: 10px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    color: #fff; /* white text */
+    text-decoration: none;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+}
+
+h1 {
+    color: #FF8C00; /* orange text */
+}
+
+button {
+    background-color: #FF8C00; /* orange button */
+    color: #fff; /* white text */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #000; /* black background */
+    color: #fff; /* white text */
+    padding: 10px;
+    text-align: center;
+    clear: both;
+}
+body.light-mode {
+    background-color: #fff;
+    color: #000;
+    transition: background-color 0.5s ease;
+}
+
+header.light-mode {
+    background-color: #000;
+}
+
+nav.light-mode a {
+    color: #000;
+}
+
+button.light-mode {
+    background-color: #000;
+    color: #fff;
+}
+.services-toggle {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 24px;
+    margin-left: 10px;
+    padding: 0;
+    position: relative;
+    top: 2px;
+}
+
+.services-toggle:focus{
+    outline: none;
+}
+
+.services-toggle:before{
+    content: "";
+    display: block;
+    height: 2px;
+    background-color: #fff;
+    margin-bottom: 4px;
+    transition: all 0.2s ease-in-out;
+    width: 0;
+}
+
+.services-toggle:hover:before{
+    width: 100%;
+}
+
+.services-menu{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    width: 150px;
+    z-index: 100;
+}
+
+.services-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.services-menu li{
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+
+.services-menu li:last-child{
+    border-bottom: none;
+}
+
+.services-menu li a{
+    color: #000;
+    text-decoration: none;
+}
+
+.services-menu li:hover{
+    background-color: #f2f2f2;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+
+body.light-mode{
+    background-color: #fff;
+  }
+  
+  /* Add dark-mode class to body when dark/light mode toggle button is clicked */
+  body.dark-mode{
+    background-color: #000;
+  }
