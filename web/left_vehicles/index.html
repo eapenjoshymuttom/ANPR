@@ -13,7 +13,30 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <ul id="details"></ul>
+    <header>
+      <div class="logo-container">
+        <img src="../logo.png" alt="parkIt_Logo" class="logo" />
+      </div>
+      <nav>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+      <button id="mode-toggle">Dark/Light Mode</button>
+      <button class="services-toggle"><img class="hamburger-menu" src="../hamburger-menu.svg"></button>
+    </header>
+    <div class="services-menu">
+      <ul>
+        <li><a href="../student/">Register Vehicle</a></li>
+        <li><a href="../security/">Track Vehicle Details</a></li>
+        <li><a href="../log/">Parking Log</a></li>
+        <li><a href="../active_log/">Present Vehicles</a></li>
+        <li><a href="./">Left Vehicles</a></li>
+      </ul>
+    </div>
+    <ul id="details" class="details"></ul>
 
     <script src="left.js" type="module"></script>
   </body>

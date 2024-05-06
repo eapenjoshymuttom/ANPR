@@ -11,6 +11,7 @@ header {
   display: flex; /* make header a flex container */
   justify-content: space-between;
   align-items: center; /* center elements vertically */
+  width: 100%;
 }
 
 .logo-container {
@@ -51,9 +52,6 @@ main {
   padding: 50px;
 }
 
-h1 {
-  color: #FF8C00; /* orange text */
-}
 
 button {
   background-color: #FF8C00; /* orange button */
@@ -79,6 +77,7 @@ body.light-mode {
 
 header.light-mode {
   background-color: #000;
+  margin-top: 0;
 }
 
 nav.light-mode a {
@@ -160,9 +159,18 @@ button.light-mode {
   background-color: #f2f2f2;
 }
 body {
+  margin-top: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 main {
@@ -177,78 +185,4 @@ body.light-mode{
 /* Add dark-mode class to body when dark/light mode toggle button is clicked */
 body.dark-mode{
   background-color: #000;
-}
-h1 {
-  background-color: rgb(160, 31, 31);
-  font-style: italic;
-  text-align: center;
-}
-form {
-  width: 300px;
-  margin: 0 auto;
-  padding: 24px;
-  gap: 24px;
-  font-weight: bold;
-  background-color: rgb(68, 170, 153);
-  font-family: sans-serif;
-}
-label {
-  display: block;
-  margin-top: 12px;
-}
-
-.security {
-  margin-top: 50px;
-  width: 500px;
-  display: flex;
-  justify-content: center;
-}
-
-.button {
-  background-color: rgb(169, 0, 28);
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.button:hover {
-  opacity: 0.8;
-}
-
-.button:active {
-  opacity: 0.4;
-}
-
-.details {
-  color: black;
-  list-style-type: none;
-  padding: 24px;
-  display: flex;
-  justify-content: left;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 50px;
-  margin-left: 0; /* Set margin-left to 0 */
-}
-
-.details li {
-  display: inline-flex; /* or display: inline-block; */
-  background-color: rgb(61, 28, 86);
-  color: white;
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.details hr {
-  width: 100%;
-  margin-top: 20px;
-  opacity: 0; /* This will make the <hr> invisible */
-}
-.input {
-  margin-left: 0px;
-  padding: 50px;
 }
