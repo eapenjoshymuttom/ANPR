@@ -248,6 +248,12 @@ input[type="text"] {
   border: 1px solid #ccc;
 }
 
+.details hr {
+  width: 100%;
+  margin-top: 20px;
+  opacity: 0; /* This will make the <hr> invisible */
+}
+
 .input {
   margin-left: 0px;
   padding: 50px;
