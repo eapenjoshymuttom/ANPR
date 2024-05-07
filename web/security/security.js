@@ -60,8 +60,13 @@ button.addEventListener("click", async function (e) {
       <li>Vehicle: ${data.vehicle}</li>
     `;
   } else {
-    alert("No data found");
-    detailsEl.innerHTML = "No data found";
+    console.log("No such document for plate number:" + searchValue);
+    alert("No Registered number as: " + searchValue);
+    detailsEl.innerHTML += `
+        <li style="background-color: red; color: black;">Plate Number: ${searchValue}</li>
+        <hr>
+      `;
+    detailsEl.innerHTML += "No data found";
   }
 
   resetForm();

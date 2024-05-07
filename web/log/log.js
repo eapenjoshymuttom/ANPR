@@ -74,7 +74,13 @@ async function fetchData() {
             alert("No data found for plate number: " + plateNumber);
           }
         } else {
-          console.log("No such document for plate number:", plateNumber);
+          console.log("No such document for plate number:"+ plateNumber);
+          // alert("No Registered number as: " + plateNumber);
+          detailsEl.innerHTML += `
+            <li style="background-color: red; color: black;">Plate Number: ${plateNumber}</li>
+            <li style="background-color: red; color: black;">In: ${new Date(in_timestamp).toLocaleString()}</li>
+            <hr>
+          `;
         }
       });
     }
