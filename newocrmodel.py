@@ -86,19 +86,23 @@ while True:
         resized_image = cv2.resize(roi, (new_width, new_height))
         cv2.imshow("_", resized_image)
         gray = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
-        cv2.imshow("", gray)
+        cv2.imshow("gray", gray)
 
         plate = pytesseract.image_to_string(gray, config='--psm 6')  # Perform OCR using Tesseract
         plate = plate.strip()  # Remove leading and trailing whitespaces
 
         if plate:
-            text = plate[0][1]  # Get the detected text
+            print("plate: ", plate)
+            text = plate  # Get the detected text directly from the plate variable
             # the image, the text to display, text location wrt image, text style, text size,text color,
             # thickness of the text characters
             cv2.putText(img, text, (x1, y1 - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
             cvzone.putTextRect(img, f' {int(id)}', (max(0, x1), max(35, y1)),
                                scale=1, thickness=1, offset=5)
+        else:
+            # No text detected, handle this case as needed
+            print("No license plate text detected")
 
         w, h = x2 - x1, y2 - y1
         cx, cy = x1 + w // 2, y1 + h // 2
@@ -143,5 +147,5 @@ while True:
         cvzone.putTextRect(img, f' Count: {len(totalCount)}', (50, 50))
 
     cv2.imshow("Image", img)
-    cv2.waitKey(1)
+    cv2.waitKey(0)
     print(totalCount)

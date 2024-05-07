@@ -89,6 +89,7 @@ while True:
 
         plate = reader.readtext(resized_image)
         if plate:
+            print("plate: ", plate[0][1])
             text = plate[0][1]  # Get the detected text
             # the image, the text to display, text location wrt image, text style, text size,text color,
             # thickness of the text characters
