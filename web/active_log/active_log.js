@@ -79,7 +79,7 @@ async function fetchData(plateNumber, in_timestamp) {
   if (docSnap.exists()) {
     const data = docSnap.data();
     console.log("Document data:", data);
-
+    activePlatesEl.innerHTML = "";
     // Display student details if available
     if (data) {
       activePlatesEl.innerHTML += `

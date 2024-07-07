@@ -31,7 +31,8 @@ classNames = ["number_plate"]
 # Tracking
 tracker = Sort(max_age=20, min_hits=3, iou_threshold=0.3)
 # x1    y1   x2   y2
-limits = [10, 570, 1280, 500]
+limits = [10, 400, 1280, 450]
+# limits = [10, 570, 1280, 500]
 
 totalCount = []
 active_plates = []
